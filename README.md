@@ -21,7 +21,6 @@ GitHub action to get workflow conclusion.
   - [Failure](#failure)
 - [Author](#author)
 
-*generated with [TOC Generator](https://github.com/technote-space/toc-generator)*
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -75,11 +74,11 @@ jobs:
 ```
 
 ### Success
-![Success](https://raw.githubusercontent.com/technote-space/workflow-conclusion-action/images/success.png)
+![Success](https://raw.githubusercontent.com/step-security/workflow-conclusion-action/images/success.png)
 
 Slack action step is skipped because all jobs are success.
 
 ### Failure
-![Failure](https://raw.githubusercontent.com/technote-space/workflow-conclusion-action/images/failure.png)
+![Failure](https://raw.githubusercontent.com/step-security/workflow-conclusion-action/images/failure.png)
 
 Slack action step has been executed even if some jobs were skipped.
