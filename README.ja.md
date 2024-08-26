@@ -72,14 +72,3 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: env.WORKFLOW_CONCLUSION == 'failure' # 失敗を通知する場合
 ```
-
-### Success
-![Success](https://raw.githubusercontent.com/step-security/workflow-conclusion-action/images/success.png)
-
-すべてのジョブが正常だったため、Slackアクションはスキップされます。
-
-### Failure
-![Failure](https://raw.githubusercontent.com/step-security/workflow-conclusion-action/images/failure.png)
-
-いくつかのジョブがスキップされた場合でもSlackアクションは実行されます。
-
