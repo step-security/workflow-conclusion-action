@@ -72,13 +72,3 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: env.WORKFLOW_CONCLUSION == 'failure' # notify only if failure
 ```
-
-### Success
-![Success](https://raw.githubusercontent.com/step-security/workflow-conclusion-action/images/success.png)
-
-Slack action step is skipped because all jobs are success.
-
-### Failure
-![Failure](https://raw.githubusercontent.com/step-security/workflow-conclusion-action/images/failure.png)
-
-Slack action step has been executed even if some jobs were skipped.
