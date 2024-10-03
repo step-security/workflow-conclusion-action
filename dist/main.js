@@ -102243,8 +102243,8 @@ const origin = hasBrowserEnv && window.location.href || 'http://localhost';
 var utils = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	hasBrowserEnv: hasBrowserEnv,
-	hasStandardBrowserWebWorkerEnv: hasStandardBrowserWebWorkerEnv,
 	hasStandardBrowserEnv: hasStandardBrowserEnv,
+	hasStandardBrowserWebWorkerEnv: hasStandardBrowserWebWorkerEnv,
 	origin: origin
 });
 
@@ -107426,7 +107426,7 @@ let CancelToken$1 = class CancelToken {
    */
   static source() {
     let cancel;
-    const token = new CancelToken$1(function executor(c) {
+    const token = new CancelToken(function executor(c) {
       cancel = c;
     });
     return {
