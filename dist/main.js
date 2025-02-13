@@ -107654,10 +107654,31 @@ const getJobs = async (octokit, context) => octokit.paginate(octokit.rest.action
 const getJobConclusions = (jobs) => utils$2.uniqueArray(jobs
     .filter((job) => null !== job.conclusion)
     .map(job => job.conclusion));
-const getWorkflowConclusion = (conclusions) => !conclusions.length ? coreExports.getInput('FALLBACK_CONCLUSION') :
-    utils$2.getBoolValue(coreExports.getInput('STRICT_SUCCESS')) ?
-        conclusions.some(conclusion => conclusion !== 'success') ? 'failure' : 'success' :
-        CONCLUSIONS.filter(conclusion => conclusions.includes(conclusion)).slice(-1)[0] ?? coreExports.getInput('FALLBACK_CONCLUSION');
+const getWorkflowConclusion = (conclusions) => {
+    const strictSuccess = utils$2.getBoolValue(coreExports.getInput('STRICT_SUCCESS') ?? 'false');
+    const fallbackConclusion = coreExports.getInput('FALLBACK_CONCLUSION') ?? 'failure';
+    if (!conclusions.length) {
+        return fallbackConclusion;
+    }
+    if (strictSuccess) {
+        return conclusions.every(conclusion => conclusion === 'success') ? 'success' : 'failure';
+    }
+    // Prioritize failure and cancelled before skipped
+    if (conclusions.includes('failure'))
+        return 'failure';
+    if (conclusions.includes('cancelled'))
+        return 'cancelled';
+    if (conclusions.includes('skipped'))
+        return 'skipped';
+    // Find the last valid conclusion
+    for (let i = conclusions.length - 1; i >= 0; i--) {
+        const conclusion = conclusions[i] ?? '';
+        if (CONCLUSIONS.includes(conclusion)) {
+            return conclusion;
+        }
+    }
+    return fallbackConclusion;
+};
 const execute = async (logger, octokit, context) => {
     const jobs = await getJobs(octokit, context);
     const conclusions = getJobConclusions(jobs);

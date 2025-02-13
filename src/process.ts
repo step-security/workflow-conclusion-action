@@ -23,12 +23,30 @@ export const getJobConclusions = (jobs: Array<{ conclusion: string | null }>): A
     .filter((job): job is { conclusion: string } => null !== job.conclusion)
     .map(job => job.conclusion),
 );
+export const getWorkflowConclusion = (conclusions: string[]): string => {
+  const strictSuccess = Utils.getBoolValue(getInput('STRICT_SUCCESS') ?? 'false');
+  const fallbackConclusion = getInput('FALLBACK_CONCLUSION') ?? 'skipped'; // Ensure a default value
 
-export const getWorkflowConclusion = (conclusions: Array<string>): string =>
-  !conclusions.length ? getInput('FALLBACK_CONCLUSION') :
-    Utils.getBoolValue(getInput('STRICT_SUCCESS')) ?
-      conclusions.some(conclusion => conclusion !== 'success') ? 'failure' : 'success' :
-      CONCLUSIONS.filter(conclusion => conclusions.includes(conclusion)).slice(-1)[0] ?? getInput('FALLBACK_CONCLUSION');
+  if (!conclusions.length) {
+    return fallbackConclusion;
+  }
+
+  if (strictSuccess) {
+    return conclusions.every(conclusion => conclusion === 'success') ? 'success' : 'failure';
+  }
+
+  // Implementing `findLast` manually, ensuring `conclusions[i]` is always a string
+  for (let i = conclusions.length - 1; i >= 0; i--) {
+    const conclusion = conclusions[i] as string; // Explicitly assert it as string
+    if (CONCLUSIONS.includes(conclusion)) {
+      return conclusion;
+    }
+  }
+
+  return fallbackConclusion;
+};
+
+
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
   const jobs        = await getJobs(octokit, context);

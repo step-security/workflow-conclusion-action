@@ -8,6 +8,6 @@ export declare const getJobs: (octokit: Octokit, context: Context) => Promise<Ar
 export declare const getJobConclusions: (jobs: Array<{
     conclusion: string | null;
 }>) => Array<string>;
-export declare const getWorkflowConclusion: (conclusions: Array<string>) => string;
+export declare const getWorkflowConclusion: (conclusions: string[]) => string;
 export declare const execute: (logger: Logger, octokit: Octokit, context: Context) => Promise<void>;
 export {};
