@@ -36,7 +36,7 @@
     "@actions/github": "^5.1.1",
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
-    "@octokit/openapi-types": "^14.0.0",
+    "@octokit/openapi-types": "^25.0.0",
     "@octokit/types": "^8.0.0",
     "@rollup/plugin-commonjs": "^23.0.3",
     "@rollup/plugin-json": "^5.0.2",
