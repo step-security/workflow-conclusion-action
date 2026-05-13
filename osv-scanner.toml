@@ -25,3 +25,15 @@ reason = "It is only used for testing"
 [[IgnoredVulns]]
 id = "GHSA-jqfw-vq24-v9c3"
 reason = "It is only used for testing"
+
+[[IgnoredVulns]]
+id = "GHSA-mh29-5h37-fv8m"
+reason = "js-yaml is a test-only dependency (pinned by @technote-space/github-action-test-helper) and is not included in the production bundle"
+
+[[IgnoredVulns]]
+id = "GHSA-4w7w-66w2-5vf9"
+reason = "vite is a test-only dependency (transitive of vitest) and is not included in the production bundle"
+
+[[IgnoredVulns]]
+id = "GHSA-93m4-6634-74q7"
+reason = "vite is a test-only dependency (transitive of vitest) and is not included in the production bundle"
