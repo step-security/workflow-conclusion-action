@@ -124,7 +124,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: technote-space/workflow-conclusion-action@82dd67fd29a53f18f33a99e0bbfb138318a80dcd # gh-actions
+      - uses: technote-space/workflow-conclusion-action@95f9a08c3e6565ffb9134e90fd181697681cb55b # gh-actions
       - uses: 8398a7/action-slack@77eaa4f1c608a7d68b38af4e3f739dcd8cba273e # v3.19.0
         with:
           status: failure
