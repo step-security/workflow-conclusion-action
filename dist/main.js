@@ -102424,12 +102424,21 @@ function requireGetProto () {
 	return getProto$1;
 }
 
-var call = Function.prototype.call;
-var $hasOwn = Object.prototype.hasOwnProperty;
-var bind$1 = functionBind;
+var hasown$1;
+var hasRequiredHasown;
 
-/** @type {import('.')} */
-var hasown = bind$1.call(call, $hasOwn);
+function requireHasown () {
+	if (hasRequiredHasown) return hasown$1;
+	hasRequiredHasown = 1;
+
+	var call = Function.prototype.call;
+	var $hasOwn = Object.prototype.hasOwnProperty;
+	var bind = functionBind;
+
+	/** @type {import('.')} */
+	hasown$1 = bind.call(call, $hasOwn);
+	return hasown$1;
+}
 
 var undefined$1;
 
@@ -102671,13 +102680,13 @@ var LEGACY_ALIASES = {
 	'%WeakSetPrototype%': ['WeakSet', 'prototype']
 };
 
-var bind = functionBind;
-var hasOwn$2 = hasown;
-var $concat = bind.call($call, Array.prototype.concat);
-var $spliceApply = bind.call($apply, Array.prototype.splice);
-var $replace = bind.call($call, String.prototype.replace);
-var $strSlice = bind.call($call, String.prototype.slice);
-var $exec = bind.call($call, RegExp.prototype.exec);
+var bind$1 = functionBind;
+var hasOwn$2 = requireHasown();
+var $concat = bind$1.call($call, Array.prototype.concat);
+var $spliceApply = bind$1.call($apply, Array.prototype.splice);
+var $replace = bind$1.call($call, String.prototype.replace);
+var $strSlice = bind$1.call($call, String.prototype.slice);
+var $exec = bind$1.call($call, RegExp.prototype.exec);
 
 /* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
 var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
@@ -102879,7 +102888,7 @@ var GetIntrinsic = getIntrinsic;
 var $defineProperty = GetIntrinsic('%Object.defineProperty%', true);
 
 var hasToStringTag = requireShams()();
-var hasOwn$1 = hasown;
+var hasOwn$1 = requireHasown();
 var $TypeError = type;
 
 var toStringTag = hasToStringTag ? Symbol.toStringTag : null;
@@ -102908,6 +102917,13 @@ var esSetTostringtag = function setToStringTag(object, value) {
 	}
 };
 
+var call = Function.prototype.call;
+var $hasOwn = Object.prototype.hasOwnProperty;
+var bind = functionBind;
+
+/** @type {import('.')} */
+var hasown = bind.call(call, $hasOwn);
+
 // populates missing values
 var populate$1 = function (dst, src) {
   Object.keys(src).forEach(function (prop) {
@@ -102931,6 +102947,18 @@ var asynckit = asynckit$1;
 var setToStringTag = esSetTostringtag;
 var hasOwn = hasown;
 var populate = populate$1;
+
+/**
+ * Escape CR, LF, and `"` in a multipart `name`/`filename` parameter, so a field
+ * name or filename can not break out of its header line to inject headers or
+ * smuggle additional parts. Matches the WHATWG HTML multipart/form-data encoding.
+ *
+ * @param {string} str - the parameter value to escape
+ * @returns {string} the escaped value
+ */
+function escapeHeaderParam(str) {
+  return String(str).replace(/\r/g, '%0D').replace(/\n/g, '%0A').replace(/"/g, '%22');
+}
 
 /**
  * Create readable "multipart/form-data" streams.
@@ -103097,7 +103125,7 @@ FormData$1.prototype._multiPartHeader = function (field, value, options) {
   var contents = '';
   var headers = {
     // add custom disposition as third element or keep it two elements if not
-    'Content-Disposition': ['form-data', 'name="' + field + '"'].concat(contentDisposition || []),
+    'Content-Disposition': ['form-data', 'name="' + escapeHeaderParam(field) + '"'].concat(contentDisposition || []),
     // if no content type. allow it to be empty array
     'Content-Type': [].concat(contentType || [])
   };
@@ -103151,7 +103179,7 @@ FormData$1.prototype._getContentDisposition = function (value, options) { // esl
   }
 
   if (filename) {
-    return 'filename="' + filename + '"';
+    return 'filename="' + escapeHeaderParam(filename) + '"';
   }
 };
 
