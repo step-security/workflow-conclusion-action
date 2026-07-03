@@ -1,0 +1,18 @@
+{
+   "schema_version": "1",
+   "onboarding_type": "copied",
+   "archived": true,
+   "maintained_action_name": "step-security/workflow-conclusion-action",
+   "upstream_full_repo_name": "technote-space/workflow-conclusion-action",
+   "action_type": "node",
+   "last_release": {
+     "tag_name": "v3.0.10",
+     "created_at": "2026-05-13T09:01:04Z",
+     "published_at": "2026-05-14T01:31:45Z"
+   },
+   "sync": {
+     "ignore_presets": [
+       "defaults_v1"
+     ]
+   }
+ }
